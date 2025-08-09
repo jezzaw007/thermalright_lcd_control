@@ -1,0 +1,2 @@
+# thermalright_lcd_control
+thermalright_lcd_control rejeb fork
