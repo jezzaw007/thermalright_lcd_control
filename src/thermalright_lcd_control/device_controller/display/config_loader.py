@@ -14,7 +14,7 @@ class ConfigLoader:
     """Load and parse YAML configuration files with global font support"""
 
     def __init__(self):
-        self.logger = self.logger = LoggerConfig.setup_service_logger()
+        self.logger = LoggerConfig.setup_service_logger()
 
     def _hex_to_rgba(self, hex_color: str) -> Tuple[int, int, int, int]:
         """Convert hex color (#RRGGBBAA) to RGBA tuple"""
@@ -75,6 +75,11 @@ class ConfigLoader:
             with open(config_file, 'r', encoding='utf-8') as file:
                 yaml_data = yaml.safe_load(file)
 
+            self.logger.info(f"Loaded config from: {config_path}")
+            self.logger.info(f"Top-level keys: {list(yaml_data.keys())}")
+            self.logger.info(f"display section type: {type(yaml_data.get('display'))}")
+            self.logger.info(f"display section content: {yaml_data.get('display')}")
+
             config = self.load_config_from_dict(yaml_data)
             self.logger.info(f"Configuration loaded successfully from {config_path}")
             return config
@@ -84,20 +89,24 @@ class ConfigLoader:
 
     def load_config_from_dict(self, yaml_data: dict) -> DisplayConfig:
         display_data = yaml_data["display"]
+
         # Parse metrics configurations
         metrics_configs = []
         if display_data["metrics"]["enabled"]:
             for metric_data in display_data["metrics"]["configs"]:
                 if metric_data.get("enabled", True):
                     metrics_configs.append(self._parse_metric_config(metric_data))
+
         # Parse date configuration
         date_config = None
         if display_data["date"]["enabled"]:
             date_config = self._parse_text_config(display_data["date"])
+
         # Parse time configuration
         time_config = None
         if display_data["time"]["enabled"]:
             time_config = self._parse_text_config(display_data["time"])
+
         # Parse foreground configuration
         foreground_path = None
         foreground_position = (0, 0)
@@ -109,6 +118,7 @@ class ConfigLoader:
                 display_data["foreground"]["position"]["y"]
             )
             foreground_alpha = display_data["foreground"]["alpha"]
+
         config = DisplayConfig(
             background_path=display_data["background"]["path"],
             background_type=BackgroundType(display_data["background"]["type"]),

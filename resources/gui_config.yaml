@@ -6,6 +6,7 @@ paths:
   backgrounds_dir: "./resources/themes/backgrounds"
   foregrounds_dir: "./resources/themes/foregrounds"
   service_config: "./resources/config.yaml"
+
 window:
   default_width: 1200
   default_height: 700
@@ -13,9 +14,9 @@ window:
   min_height: 600
 
 supported_formats:
-  images: [ '.jpg', '.jpeg', '.png', '.bmp', '.tiff', '.webp' ]
-  videos: [ '.mp4', '.avi', '.mkv', '.mov', '.webm', '.flv', '.wmv', '.m4v' ]
-  gifs: [ '.gif' ]
+  images: [".jpg", ".jpeg", ".png", ".bmp", ".tiff", ".webp"]
+  videos: [".mp4", ".avi", ".mkv", ".mov", ".webm", ".flv", ".wmv", ".m4v"]
+  gifs: [".gif"]
 
 supported_devices:
   - vid: "0x0416"
@@ -37,3 +38,58 @@ supported_devices:
     pid: "0x5304"
     width: 480
     height: 480
+
+  # ChiZhu LCD Panel - Frozen Vision V2
+  - vid: "0x87ad"
+    pid: "0x70db"
+    width: 480
+    height: 480
+
+display:
+  mode: slideshow
+  output_width: 480
+  output_height: 480
+
+  date:
+    enabled: false
+    text: "2025-08-10"
+    position:
+      x: 0
+      y: 0
+    font_size: 12
+    color: "#FFFFFF"
+
+  time:
+    enabled: false
+    text: "09:00"
+    position:
+      x: 0
+      y: 20
+    font_size: 12
+    color: "#FFFFFF"
+
+  foreground:
+    enabled: false
+    path: "./resources/themes/foregrounds/001a.png"
+    position:
+      x: 0
+      y: 0
+    alpha: 1.0
+
+  background:
+    path: "./resources/themes/backgrounds/y006.png"
+    type: "image"
+
+  metrics:
+    enabled: false
+    refresh_interval: 5
+    configs: []
+
+  images:
+    - path: "./resources/images/test1.png"
+      duration: 1.5
+    - path: "./resources/images/test2.png"
+      duration: 2.0
+    - path: "./resources/images/test3.png"
+      duration: 1.0
+
