@@ -42,8 +42,11 @@ supported_devices:
   # ChiZhu LCD Panel - Frozen Vision V2
   - vid: "0x87ad"
     pid: "0x70db"
-    width: 480
-    height: 480
+    driver: winusb
+    interface: 0
+    jpeg:
+      quality: 85
+      subsampling: 0
 
 display:
   mode: slideshow
@@ -92,4 +95,3 @@ display:
       duration: 2.0
     - path: "./resources/images/test3.png"
       duration: 1.0
-
