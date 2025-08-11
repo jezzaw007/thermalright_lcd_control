@@ -167,6 +167,16 @@ class USBDisplayDevice(ABC):
             frame_packets.append(bytes([0x00]) + chunk)
         return frame_packets
 
+    def send_init_sequence(self):
+        init1 = bytes.fromhex("1b0010d09e27028effff000000000900000100020001034000000012345678000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000")
+        assert len(init1) == 91
+        init2_raw = bytes.fromhex("1b0010907227028effff0000000009000101000200010300000000")
+        assert len(init2_raw) == 27
+
+        self.logger.info("Sending init sequence to ChiZhu panel")
+        self.dev.write(self.endpoint_out, init1)
+        self.dev.write(self.endpoint_out, init2_raw)
+
     def run(self):
         self.logger.info("USB display device running")
         while True:
@@ -192,7 +202,6 @@ class DisplayDevice04185304(DisplayDevice):
 
     def get_header(self) -> bytes:
         return struct.pack('<BBHHH', 0x69, 0x88, 480, 480, 0)
-
 
 class DisplayDevice04168001(DisplayDevice):
     def __init__(self, config_file: str):
@@ -256,3 +265,5 @@ def load_device(config_file: str) -> Optional[Union[DisplayDevice, USBDisplayDev
         raise Exception("No supported device found")
     except Exception as e:
         raise Exception(f"Device detection failed: {e}") from e
+
+
